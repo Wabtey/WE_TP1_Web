@@ -1,5 +1,6 @@
 // import { Vec2 } from './lib.js'; // "./lib.js"; 
 
+// TODO: Move to lib
 class Vec2 {
     constructor(x, y) {
         this.x = x
@@ -11,29 +12,46 @@ class Vec2 {
 // L'interacteur viendra dans un second temps donc ne vous en souciez pas au départ.
 function DnD(canvas, interactor) {
     // Définir ici les attributs de la 'classe'
-    this.initial_position = new Vec2(0, 0);
-    this.final_position = new Vec2(0, 0);
+    this.initX = 0;
+    this.initY = 0;
+    this.finalX = 0;
+    this.finalY = 0;
+    this.is_clicked = false;
 
     // Developper les 3 fonctions gérant les événements
     this.press = function (evt) {
         console.log("Pressed");
-        var [x, y] = getMousePosition(this.canvas, evt);
-        this.initial_position = new Vec2(x, y);
-    }
+        var pos = getMousePosition(canvas, evt);
+        console.log(pos);
+        this.initX = pos.x;
+        this.initY = pos.y;
+        this.is_clicked = true;
+    }.bind(this);
 
     // ???
     this.move = function (evt) {
-        var [x, y] = getMousePosition(this.canvas, evt);
-        this.final_position = new Vec2(x, y);
-    }
+        if (this.is_clicked) {
+            var pos = getMousePosition(canvas, evt);
+            this.finalX = pos.x;
+            this.finalY = pos.y;
+            console.log(pos);
+        }
+    }.bind(this);
 
     this.drop = function (evt) {
         console.log("Dropped");
-        var [x, y] = getMousePosition(this.canvas, evt);
-        this.final_position = new Vec2(x, y);
-    }
+        var pos = getMousePosition(canvas, evt);
+        this.finalX = pos.x;
+        this.finalY = pos.y;
+        this.is_clicked = false;
+        console.log(pos);
+    }.bind(this);
 
     // Associer les fonctions précédentes aux évènements du canvas.
+
+    canvas.addEventListener('mousedown', this.press, false);
+    canvas.addEventListener('mousemove', this.move, false);
+    canvas.addEventListener('mouseup', this.drop, false);
 }
 
 // DnD.move = function (evt) { }
