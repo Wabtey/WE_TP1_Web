@@ -22,4 +22,7 @@ Drawing.prototype.paint = function (ctx, canvas) {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     // `this.getForms().` ...
     this.shapeArray.forEach(element => element.paint(ctx))
+    if (this.currentShape !== undefined) {
+        this.currentShape.paint(ctx)
+    }
 };

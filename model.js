@@ -4,6 +4,7 @@
 
 function Drawing() {
     this.shapeArray = new Map();
+    this.currentShape = undefined;
 }
 
 function Shape(startX, startY, thickness, color) {
@@ -13,7 +14,7 @@ function Shape(startX, startY, thickness, color) {
     this.color = color;
 }
 
-function Rectangle(startX, startY, thickness, color, height, width) {
+function Rectangle(startX, startY, thickness, color, width, height) {
     Shape.call(this, startX, startY, thickness, color)
     this.height = height;
     this.width = width;
