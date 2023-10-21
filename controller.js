@@ -5,12 +5,12 @@ function Pencil(ctx, drawing, canvas) {
     this.currEditingMode = editingMode.rect;
     this.currLineWidth = 5;
     this.currColor = '#000000'; // '#FFFFFF';
-    // NOTE: Why this attribute exist ?
     this.currentShape = undefined;
 
     // Lier ici les widgets à la classe pour modifier les attributs présents ci-dessus.
 
-    // FIXME: The reactivness with the spinnerWidth and colour are always one input late...
+    // BUG: The spinnerWidth and colour are always one input late...
+    // ^^--- this err seems to happen only on firefox archlinux.
     document.getElementById('butRect').onclick = (_) => this.currEditingMode = editingMode.rect
     document.getElementById('butLine').onclick = (_) => this.currEditingMode = editingMode.line
     document.getElementById('spinnerWidth').onclick = (e) => this.currLineWidth = e.target.value
@@ -22,17 +22,18 @@ function Pencil(ctx, drawing, canvas) {
 
     this.onInteractionStart = function (dnd) {
         if (this.currEditingMode == editingMode.rect) {
-            drawing.currentShape = new Rectangle();
+            this.currentShape = new Rectangle();
         } else {
-            drawing.currentShape = new Line();
+            this.currentShape = new Line();
         }
         drawing.paint(ctx, canvas);
+        this.currentShape.paint(ctx);
     }.bind(this);
 
     this.onInteractionUpdate = function (dnd) {
         // OPTIMIZE: is modifying instead of recreating better ? pbly
         if (this.currEditingMode == editingMode.rect) {
-            drawing.currentShape =
+            this.currentShape =
                 new Rectangle(
                     dnd.initial_position.x,
                     dnd.initial_position.y,
@@ -42,7 +43,7 @@ function Pencil(ctx, drawing, canvas) {
                     dnd.final_position.y - dnd.initial_position.y
                 );
         } else {
-            drawing.currentShape =
+            this.currentShape =
                 new Line(
                     dnd.initial_position.x,
                     dnd.initial_position.y,
@@ -54,14 +55,15 @@ function Pencil(ctx, drawing, canvas) {
         }
 
         drawing.paint(ctx, canvas);
+        this.currentShape.paint(ctx);
     }.bind(this);
 
     this.onInteractionEnd = function (dnd) {
         drawing.shapeArray.set(
             Date.now(),
-            drawing.currentShape
+            this.currentShape
         );
-        drawing.currentShape = undefined;
+        this.currentShape = undefined;
         drawing.paint(ctx, canvas);
     }.bind(this);
 };

@@ -4,7 +4,6 @@
 
 function Drawing() {
     this.shapeArray = new Map();
-    this.currentShape = undefined;
 }
 
 function Shape(startX, startY, thickness, color) {
