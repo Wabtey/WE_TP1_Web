@@ -12,10 +12,6 @@ class Vec2 {
 // L'interacteur viendra dans un second temps donc ne vous en souciez pas au départ.
 function DnD(canvas, interactor) {
     // Définir ici les attributs de la 'classe'
-    // this.initX = 0;
-    // this.initY = 0;
-    // this.finalX = 0;
-    // this.finalY = 0;
     this.initial_position = new Vec2(0, 0);
     this.final_position = new Vec2(0, 0);
     this.is_clicked = false;
