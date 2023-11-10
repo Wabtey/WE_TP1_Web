@@ -59,7 +59,7 @@ function Pencil(ctx, drawing, canvas) {
     }.bind(this);
 
     this.onInteractionEnd = function (dnd) {
-        var id = Date.now();
+        var id = self.crypto.randomUUID(); // uuidv4(); // Date.now();
         console.log("create:" + id);
         drawing.shapeArray.set(
             id,
@@ -85,6 +85,14 @@ function remove(drawing, index, ctx, canvas) {
     drawing.shapeArray.delete(index);
     document.getElementById('liRemove' + index).remove()
     drawing.paint(ctx, canvas)
+}
+
+/// You should use `self.crypto.randomUUID()`
+/// From [How do I create a GUID / UUID?](https://stackoverflow.com/a/2117523)
+function uuidv4() {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
 
 
