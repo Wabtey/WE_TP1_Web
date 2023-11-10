@@ -18,8 +18,6 @@ function Pencil(ctx, drawing, canvas) {
 
     new DnD(canvas, this);
 
-    // TODO: LINE with `this.currEditingMode`
-
     this.onInteractionStart = function (dnd) {
         if (this.currEditingMode == editingMode.rect) {
             this.currentShape = new Rectangle();
@@ -54,18 +52,38 @@ function Pencil(ctx, drawing, canvas) {
                 );
         }
 
+        // update current drawing state
         drawing.paint(ctx, canvas);
+        // draw the line/rectangle as you drag
         this.currentShape.paint(ctx);
     }.bind(this);
 
     this.onInteractionEnd = function (dnd) {
+        var id = Date.now();
+        console.log(id);
         drawing.shapeArray.set(
-            Date.now(),
+            id,
             this.currentShape
         );
-        this.currentShape = undefined;
         drawing.paint(ctx, canvas);
+        updateShapeList(id, this.currentShape)
+        document.getElementById("remove" + id).onclick =
+            (event) =>
+                remove(
+                    drawing,
+                    event.currentTarget.id.substring(6),
+                    ctx,
+                    canvas
+                )
+        this.currentShape = undefined;
     }.bind(this);
 };
+
+function remove(drawing, index, ctx, canvas) {
+    console.log(index);
+    drawing.shapeArray.delete(index);
+    document.getElementById('liRemove' + index).remove()
+    drawing.paint(ctx, canvas)
+}
 
 
