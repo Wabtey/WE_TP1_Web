@@ -81,7 +81,7 @@ function Pencil(ctx, drawing, canvas) {
 
 function remove(drawing, index, ctx, canvas) {
     console.log("delete: " + index);
-    console.log(drawing.shapeArray.get(index) + " " + drawing.shapeArray.delete(index));
+    // console.log(drawing.shapeArray.get(index) + " delete success: " + drawing.shapeArray.delete(index));
     drawing.shapeArray.delete(index);
     document.getElementById('liRemove' + index).remove()
     drawing.paint(ctx, canvas)
