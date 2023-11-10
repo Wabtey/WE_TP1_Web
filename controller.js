@@ -60,7 +60,7 @@ function Pencil(ctx, drawing, canvas) {
 
     this.onInteractionEnd = function (dnd) {
         var id = Date.now();
-        console.log(id);
+        console.log("create:" + id);
         drawing.shapeArray.set(
             id,
             this.currentShape
@@ -80,7 +80,8 @@ function Pencil(ctx, drawing, canvas) {
 };
 
 function remove(drawing, index, ctx, canvas) {
-    console.log(index);
+    console.log("delete: " + index);
+    console.log(drawing.shapeArray.get(index) + " " + drawing.shapeArray.delete(index));
     drawing.shapeArray.delete(index);
     document.getElementById('liRemove' + index).remove()
     drawing.paint(ctx, canvas)

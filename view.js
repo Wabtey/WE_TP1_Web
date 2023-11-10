@@ -17,11 +17,11 @@ Line.prototype.paint = function (ctx) {
 
 Drawing.prototype.paint = function (ctx, canvas) {
     // console.log(this.getForms());
-    // TODO: Background Color
-    ctx.fillStyle = '#F0F0F0';
+    ctx.fillStyle = '#F0F0F0'; // Background Color
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     // `this.getForms().` ...
     this.shapeArray.forEach(element => element.paint(ctx))
+
     // painting the currentShape is managed in the Pencil
     // if (this.currentShape !== undefined) {
     //     this.currentShape.paint(ctx)
